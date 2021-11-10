@@ -7,7 +7,6 @@ Players' actions
 from players import *
 from bet import *
 from decks import *
-import time
 
 def showplayerhandvalue(playername: str, playercards: list) -> None:
     val = playerhandvalue(playercards)
@@ -36,11 +35,11 @@ def showdealerhands(dealer: str, dealercards: list) -> None:
         print(f"\n{dealer} cards: ")
         printholecard()
         printhands(dealercards, start=1)
-            
+
 def showallhands(name: str, playercards: list):
     print(f"\n{name}'s hands")
     printhands(playercards)
-        
+
 def stand(playername: str) -> None:
     print(f"== {playername} stands.")
 
@@ -83,7 +82,7 @@ def playerhandvalue(playercards: list) -> int:
 
 def showhandandvalueafteraction(playername: str,
                                 playercards: list) -> None:
-    
+
     showplayerhandvalue(playername, playercards)
     printhands(playercards)
 
@@ -105,36 +104,34 @@ def dealeraction(deck: list, playername: str, dealercards: list) -> None:
         pass
     showhandandvalueafteraction(playername, dealercards)
 
-"""
-def determinewinner(dealercards: list, playercards: list, 
-                        playersnames: list, mainhandstats: list,
-                            numplayer: int) -> None:
-    showallhands(playercards[numplayer])
+def determinewinner(playersnames: list, dealercards: list, playercards: list,
+                         monies: list, wagers: list, numplayer: int) -> None:
+    showhandandvalueafteraction(playersnames[numplayer], playercards[numplayer])
 
     if playerhandvalue(playercards[numplayer]) > 21:
-        print(f"== {playersnames[numplayer]} busted and lost.")
-        mainhandstats[numplayer] = 'Lost'
+        losebet(playersnames, wagers, numplayer)
+
     elif (playerhandvalue(playercards[numplayer]) <= 21 and
                                         playerhandvalue(dealercards) <= 21):
-        if (playerhandvalue(playercards[numplayer], numplayer) <
+        if (playerhandvalue(playercards[numplayer]) <
                     playerhandvalue(dealercards)):
-            print(f"== {playersnames[numplayer]} lost.")
-            mainhandstats[numplayer] = 'Lost'
-        elif playerhandvalue(playercards[numplayer]) > playerhandvalue(dealercards):
-            print(f"== {playersnames[numplayer]} wins.")
-            mainhandstats[numplayer] = 'Win'
-        elif playerhandvalue(playercards[numplayer]) == playerhandvalue(dealercards):
-            print(f"== {playersnames[numplayer]} tied. Player is pushed")
-            mainhandstats[numplayer] = 'Push'
-    elif (playerhandvalue(playercards[numplayer], numplayer) <= 21 and
-                                          playerhandvalue(dealercards) > 21):
-        print(f"== {playersnames[numplayer]} wins.")
-        mainhandstats[numplayer] = 'Win'
+            losebet(playersnames, wagers, numplayer)
+
+        elif (playerhandvalue(playercards[numplayer]) >
+                  playerhandvalue(dealercards)):
+            winrate = (3 / 2) if isblackjack(playercards[numplayer]) else 1.0
+            winbet(playersnames, monies, wagers, numplayer, winrate)
+
+        elif (playerhandvalue(playercards[numplayer]) ==
+                  playerhandvalue(dealercards)):
+            pushbet(playersnames, monies, wagers, numplayer)
+
+    elif playerhandvalue(playercards[numplayer]) <= 21:
+        if playerhandvalue(dealercards) > 21:
+            winrate = (3 / 2) if isblackjack(playercards[numplayer]) else 1.0
+            winbet(playersnames, monies, wagers, numplayer, winrate)
+
     else:
         pass
-"""
-
-"""
-def determinewinner(dealercards: list, playercards: list, 
-                        playersnames: list, numplayer: int) -> None:
-"""
+    checkforinsurance(playersnames, monies, insurancewagers,
+                          isblackjack(dealercards), numplayer)

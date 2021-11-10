@@ -15,18 +15,15 @@ maincards = []
 splitcards = []
 
 def startgame(deck: list, playersnames: list, monies: list,
-                      wagers: list, insurancewagers: list,
-                          splitwagers: list, mainhandstats: list,
-                              splithandstats: list, insurancestats: list,
+                      wagers: list, insurancewagers: list, splitwagers: list,
                                   numplayer: int, money: int=100) -> None:
     for i in range(numplayer):
-        createplayer(f"Player #{i + 1}", monies, wagers, 
-                         insurancewagers, splitwagers, mainhandstats, 
-                             splithandstats, insurancestats)
+        createplayer(f"Player #{i + 1}", monies, wagers,
+                         insurancewagers, splitwagers)
     createplaydeck(deck)
     shuffledeck(deck)
-    
-def startbets(playersnames: list, monies: list, 
+
+def startbets(playersnames: list, monies: list,
                   wagers: list, numplayer: int) -> None:
     for idx, p in enumerate(playersnames):
         while True:
@@ -42,8 +39,8 @@ def startbets(playersnames: list, monies: list,
             except ValueError:
                 print("Please enter integer only.")
                 pass
-    
-def drawinitalcards(deck: list, playersnames: list, 
+
+def drawinitalcards(deck: list, playersnames: list,
                         playerscards: list, dealercards: list) -> None:
     playerscards.clear()
     # Create a temporary list of tuples [[], [], ...]
@@ -72,10 +69,9 @@ def buildsplitcards(playersnames: list, splitcards: list) -> None:
 
 def askforinsurance(dealercards: list, playersnames: list,
                         monies: list, wagers: list,
-                            insurancewagers: list,
-                                insurancestats: list) -> None:
+                            insurancewagers: list) -> None:
     prompt  = "Enter amount (less or equal than wagers)"
-    prompt += "Enter 0 if you do not want insurance" 
+    prompt += "Enter 0 if you do not want insurance"
     if dealercards[1][0] == 'A':
         print("\nDealer has an open card Ace.")
         print("Do you want to have an insurance?\n")
@@ -92,8 +88,7 @@ def askforinsurance(dealercards: list, playersnames: list,
                         break
                     elif bet > 0 and bet <= wagers[idx]:
                         if monies[idx] > bet:
-                            if insurancebet(bet, monies, insurancewagers,
-                                                    insurancestats, idx):
+                            if insurancebet(bet, monies, insurancewagers, idx):
                                 print(f"== {p} has placed ${bet} bet\n")
                                 break
                         else:
@@ -111,24 +106,25 @@ def askforinsurance(dealercards: list, playersnames: list,
 
 def askforsplit(playersnames: list, playerscards: list,
                 monies: list, wagers: list, splitcards: list,
-                splitwagers: list, splithandstats: list) -> None:
-                                
+                splitwagers: list) -> None:
+
     for idx, p in enumerate(playersnames):
-        if (len(playerscards[idx]) == 2 and (playerscards[idx][0][0] == playerscards[idx][1][0])
+        if (len(playerscards[idx]) == 2 and
+            (playerscards[idx][0][0] == playerscards[idx][1][0])
                 and wagers[idx] > 0):
             while True:
                 print(f"{p} hands:")
                 printhands(playerscards[idx])
                 showplayerhandvalue(p, playerscards[idx])
                 print(f"\n== {p} have two cards with the same face")
-                takesplit = input(f"== Do you want to split? (Y/N): ")
+                takesplit = input("== Do you want to split? (Y/N): ")
                 if takesplit.upper() == 'N':
                     print(f"== {p} do not want split cards")
                     break
                 elif takesplit.upper() == 'Y':
                     if monies[idx] >= wagers[idx]:
-                        if splitbet(monies, wagers, splitwagers, playerscards, 
-                                         splitcards, splithandstats, idx):
+                        if splitbet(monies, wagers, splitwagers,
+                                        playerscards, splitcards, idx):
                             print(f"{p} has split cards with ${wagers[idx]} bet\n")
                             break
                         break
@@ -139,14 +135,13 @@ def askforsplit(playersnames: list, playerscards: list,
                         break
                 else:
                     print("Invalid choice")
-    
-def playeractions(deck: list, dealercards: list, playersnames: list,   
-                    playerscards: list, splitcards: list, monies: list,  
-                    wagers: list, splitwagers: list,
-                    mainhandstats: list, splithandstats: list) -> None:
+
+def playeractions(deck: list, dealercards: list, playersnames: list,
+                    playerscards: list, splitcards: list, monies: list,
+                    wagers: list, splitwagers: list) -> None:
     for idx, p in enumerate(playersnames):
         print(f"\nCurrent player {p} hands:")
-        printhands(playerscards[idx])
+        showhandandvalueafteraction(p, playerscards[idx])
         if playerhandvalue(playerscards[idx]) < 21:
             while True:
                 if playerhandvalue(playerscards[idx]) >= 21:
@@ -162,18 +157,18 @@ def playeractions(deck: list, dealercards: list, playersnames: list,
                         hit(deck, p, playerscards, idx)
                     else:
                         print("Please enter a number 0 or 1 only.")
-                        
+
                 except ValueError:
                     print("Value entered is not an a number.")
                     print("Please enter a number 0 or 1 only.")
                 showhandandvalueafteraction(p, playerscards[idx])
-            
+
             if len(splitcards[idx]) > 0:
                 showhandandvalueafteraction(p, playerscards[idx])
                 splitaction(deck, p, splitcards, idx)
         else:
             pass
-    
+
 def splitaction(deck: list, playername: str,
                      splitcards: list, numplayer: int) -> None:
     print(f"\nCurrent player {playername} split hands:")
@@ -200,13 +195,13 @@ def splitaction(deck: list, playername: str,
                     print("Value entered is not an a number.")
                     print("Please enter a number 0 or 1 only.")
         print(f"{playername} split hands")
-        showhandandvalueafteraction(playername, splitcards[numplayer])    
+        showhandandvalueafteraction(playername, splitcards[numplayer])
     else:
         pass
-    
-def finalizeround(deck: list, discard: list, playerscards: list, 
+
+def finalizeround(deck: list, discard: list, playerscards: list,
                       splitcards: list, dealercards: list) -> None:
-    
+
     if len(playerscards) > 0:
         for i in range(len(playerscards)):
             clearcards(discardpile, playerscards[i])
@@ -218,3 +213,18 @@ def finalizeround(deck: list, discard: list, playerscards: list,
 
     if len(deck) <= ((len(playersnames) * 2) + 2):
         recyclecards(deck, discardpile)
+
+    print(f"There are {len(deck)} cards left in the play deck.")
+    print(f"{len(discardpile)} cards have been discarded.\n")
+
+
+def playagain() -> bool:
+    while True:
+        replay = input("Play again? (Y/N): ")
+        if replay.upper() == "N":
+            return False
+        elif replay.upper() == "Y":
+            return True
+        else:
+            print("Please enter Y for YES or N for NO only")
+

@@ -11,8 +11,8 @@ faceschars: list = "A 2 3 4 5 6 7 8 9 10 J Q K".split()
 cardsvalues: list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
 # Card outlines
-horizline13: str = f"─"*13
-horizline11: str = f"─"*11
+horizline13: str = "─"*13
+horizline11: str = "─"*11
 vertline: str = "│"
 topright: str = "┌"
 topleft: str = "┐"
@@ -113,7 +113,7 @@ def printsinglecard(card: tuple) -> None:
     print(lowsuit)
     print(lowface)
     print(cardbottom)
-    
+
 def printholecard() -> None:
     print(cardtop)
     print(cardtop2)
