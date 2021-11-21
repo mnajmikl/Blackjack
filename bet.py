@@ -70,7 +70,7 @@ def checkforinsurance(playersnames: list, monies: list, insurancewagers: list,
     if insurancewagers[numplayer] > 0 and dealerhasbj:
         insurancewin = insurancewagers[numplayer] * 2
         print(f"{playersnames[numplayer]} ", end='')
-        print("has win insurance wagers: ${insurancewin}")
+        print(f"has win insurance wagers: ${insurancewin}")
         monies[numplayer] += insurancewin
     insurancewagers[numplayer] = 0
 

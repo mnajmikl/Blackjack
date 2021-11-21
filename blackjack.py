@@ -7,8 +7,9 @@ from game import *
 
 def main():
     # 1. Initialize the game elements
-    startgame(deck, playersnames, monies, wagers,
-                  insurancewagers, splitwagers, 4)
+    startgame(playersnames, monies, 4)
+    setwagers(wagers, insurancewagers, splitwagers, 4)
+    setcards(deck)
     while True:
         # 2. Start betting
         startbets(playersnames, monies, wagers, len(playersnames) - 1)
@@ -29,8 +30,8 @@ def main():
         askforsplit(playersnames, maincards, monies, wagers,
                         splitcards, splitwagers)
         # 5a. Player actions: hit or stand
-        playeractions(deck, dealercards, playersnames, maincards,
-                        splitcards, monies, wagers, splitwagers)
+        playeractions(deck, dealercards, playersnames, 
+                        maincards, splitcards)
         # 6. Dealer's action
         sleep(2)
         dealeraction(deck, dealer, dealercards)

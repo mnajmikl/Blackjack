@@ -10,13 +10,13 @@ Players and their cards are stored in the following format:
 playersnames = []
 dealer = 'Dealer'
 
-def createplayer(name: str, monies: list, wagers: list, insurancewagers: list,
-                     splitwagers: list, money: int=100) -> None:
-
+def createplayer(name: str, monies: list,  money: int=100) -> None:
     playersnames.append(name)
     monies.append(money)
-    wagers.append(0)
-    insurancewagers.append(0)
-    splitwagers.append(0)
 
-
+def setwagers(wagers: list, insurancewagers: list,
+                  splitwagers: list, numplayer: int):
+    for _ in range(numplayer):
+        wagers.append(0)
+        insurancewagers.append(0)
+        splitwagers.append(0)

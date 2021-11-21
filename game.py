@@ -14,12 +14,12 @@ dealercards = []
 maincards = []
 splitcards = []
 
-def startgame(deck: list, playersnames: list, monies: list,
-                      wagers: list, insurancewagers: list, splitwagers: list,
-                                  numplayer: int, money: int=100) -> None:
+def startgame(playersnames: list, monies: list,
+                  numplayer: int, money: int=100) -> None:
     for i in range(numplayer):
-        createplayer(f"Player #{i + 1}", monies, wagers,
-                         insurancewagers, splitwagers)
+        createplayer(f"Player #{i + 1}", monies)
+
+def setcards(deck: list):
     createplaydeck(deck)
     shuffledeck(deck)
 
@@ -137,8 +137,7 @@ def askforsplit(playersnames: list, playerscards: list,
                     print("Invalid choice")
 
 def playeractions(deck: list, dealercards: list, playersnames: list,
-                    playerscards: list, splitcards: list, monies: list,
-                    wagers: list, splitwagers: list) -> None:
+                    playerscards: list, splitcards: list) -> None:
     for idx, p in enumerate(playersnames):
         print(f"\nCurrent player {p} hands:")
         showhandandvalueafteraction(p, playerscards[idx])
@@ -180,7 +179,7 @@ def splitaction(deck: list, playername: str,
                     break
                 try:
                     print(f"\nSplit cards: Current player: {playername}")
-                    action = int(input(f"Split: [0 - Stand | 1 - Hit]: "))
+                    action = int(input("Split: [0 - Stand | 1 - Hit]: "))
                     if action == 0:
                         stand(playername)
                         showplayerhandvalue(playername, splitcards[numplayer])
