@@ -40,6 +40,8 @@ def main():
         for idx in range(len(playersnames)):
             determinewinner(playersnames, dealercards, maincards,
                                      monies, wagers, idx)
+            determinewinner(playersnames, dealercards, splitcards,
+                                     monies, splitwagers, idx)
         # 8. finalizeround()
         finalizeround(deck, discardpile, maincards, splitcards, dealercards)
         # 9. Ask for new round
