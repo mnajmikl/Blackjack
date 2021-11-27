@@ -106,6 +106,9 @@ def dealeraction(deck: list, playername: str, dealercards: list) -> None:
 
 def determinewinner(playersnames: list, dealercards: list, playercards: list,
                          monies: list, wagers: list, numplayer: int) -> None:
+    if len(playercards[numplayer]) == 0:
+        return
+    
     showhandandvalueafteraction(playersnames[numplayer], playercards[numplayer])
 
     if playerhandvalue(playercards[numplayer]) > 21:
